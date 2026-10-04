@@ -1,0 +1,62 @@
+# ---------------------------------------------------------------------------
+# AI/ML Internship Projects - complete dependency set
+# ---------------------------------------------------------------------------
+# Verified against Python 3.11 on macOS (Apple Silicon), and installable on
+# Linux and Windows. All versions below are the ones this repository was built
+# and tested with; they are pinned as lower bounds plus a major-version ceiling
+# so that a future minor release cannot silently change model behaviour.
+#
+#   python -m venv .venv
+#   source .venv/bin/activate        # Windows: .venv\Scripts\activate
+#   pip install -r requirements.txt
+# ---------------------------------------------------------------------------
+
+# --- Core data stack -------------------------------------------------------
+numpy>=2.0,<3.0
+pandas>=2.2,<4.0
+scipy>=1.13,<2.0
+scikit-learn>=1.5,<2.0
+
+# --- Visualisation ---------------------------------------------------------
+matplotlib>=3.9,<4.0
+seaborn>=0.13,<1.0
+plotly>=5.24,<8.0
+
+# --- Deep learning (projects 03 and 08) ------------------------------------
+# PyTorch ships a native Apple Silicon (arm64) wheel, so CPU and Apple Metal
+# acceleration both work without a separate framework install. CUDA is used
+# automatically when present, and is never required.
+torch>=2.4,<3.0
+
+# --- Web application layer -------------------------------------------------
+streamlit>=1.38,<2.0
+
+# --- Model persistence -----------------------------------------------------
+joblib>=1.4,<2.0
+
+# --- HTTP and dataset acquisition -----------------------------------------
+requests>=2.32,<3.0
+
+# --- Image handling --------------------------------------------------------
+pillow>=10.4,<13.0
+
+# --- Speech-to-text (project 10) -------------------------------------------
+# faster-whisper is the primary engine: fully offline, CPU-friendly (int8),
+# and distributed as arm64 wheels for macOS. SpeechRecognition provides the
+# optional online fallback plus audio decoding helpers.
+faster-whisper>=1.0,<2.0
+soundfile>=0.12,<1.0
+SpeechRecognition>=3.10,<4.0
+pydub>=0.25,<1.0
+
+# --- Testing ---------------------------------------------------------------
+pytest>=8.0,<10.0
+
+# --- Optional --------------------------------------------------------------
+# NLTK is optional: shared/text.py falls back to a bundled English stop-word
+# list when NLTK or its corpus data is unavailable. Uncomment to use the NLTK
+# stop-word corpus instead (run `python -m nltk.downloader stopwords` after).
+# nltk>=3.9,<4.0
+#
+# python-dotenv is optional: without it, real environment variables are used.
+# python-dotenv>=1.0,<2.0
