@@ -1,0 +1,48 @@
+# ===========================================================================
+# codec-Projects - files that are generated or downloaded and must NOT be
+# committed. Datasets are fetched on first use and models are produced by
+# train.py, so a fresh clone rebuilds all of this from source.
+# ===========================================================================
+
+# --- Downloaded datasets and generated caches (recreated by train.py) ------
+# Keep the tiny .gitkeep placeholder so the directory structure survives.
+**/data/*
+!**/data/.gitkeep
+
+# --- Trained model artefacts and training logs (recreated by train.py) -----
+**/models/*
+!**/models/.gitkeep
+
+# --- Streamlit launcher runtime state --------------------------------------
+.streamlit_servers.json
+
+# --- Logs ------------------------------------------------------------------
+*.log
+
+# --- Python ----------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+env/
+
+# --- Test / type-check / lint caches ---------------------------------------
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# --- Environment / secrets -------------------------------------------------
+.env
+.env.*
+!.env.example
+
+# --- OS / editor -----------------------------------------------------------
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
