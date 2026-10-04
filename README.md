@@ -419,10 +419,6 @@ The suite is deliberately honest about what it does **not** do:
   be removed reliably (see challenge #4).
 - Forecasting projects (01, 09) are educational and make no claim about live or
   future prices/weather.
-- Project 09 (Weather) is scaffolded — the directory, metadata and theme are in
-  place, but its `src/`, `train.py` and `app.py` are not yet committed. It is
-  listed in the catalogue and `scripts/train_all.sh`, which skips projects that
-  have no `train.py`.
 
 ## License
 
