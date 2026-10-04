@@ -37,6 +37,9 @@ USER_AGENT = "AI-ML-Internship-Projects/1.0 (+educational use; python-requests)"
 #: Number of download attempts before giving up.
 MAX_ATTEMPTS = 3
 
+#: Human-readable form of :data:`MAX_ATTEMPTS`, used in error messages.
+MAX_ATTEMPTS_LABEL = f"{MAX_ATTEMPTS} attempts"
+
 #: Seconds to wait between retries, multiplied by the attempt number.
 RETRY_BACKOFF_SECONDS = 2.0
 
@@ -235,9 +238,6 @@ def download_file(
             f"download instructions in the project README. Last error: {last_error}"
         ),
     )
-
-
-MAX_ATTEMPTS_LABEL = f"{MAX_ATTEMPTS} attempts"
 
 
 def fetch_dataset(
