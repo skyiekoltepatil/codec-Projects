@@ -68,21 +68,40 @@ def _load_whisper(model_size: str, device: str, compute_type: str):
 def _validate_upload(uploaded) -> tuple[bytes, str]:
     """Return ``(bytes, filename)`` for an uploaded or recorded file.
 
+    The size is checked *before* the contents are read into memory when the
+    upload object reports its size, and the extension is validated here as well
+    as by the uploader widget, so a renamed file cannot slip past the filter.
+
     Raises:
-        InvalidInputError: When nothing was provided, the file is empty, or it is
-            larger than :data:`MAX_UPLOAD_BYTES`.
+        InvalidInputError: When nothing was provided, the format is unsupported,
+            the file is empty, or it is larger than :data:`MAX_UPLOAD_BYTES`.
     """
     if uploaded is None:
         raise InvalidInputError(
             "No audio was provided.",
             hint="Upload a file or record a clip, then press Transcribe.",
         )
-    name = getattr(uploaded, "name", "audio.wav")
+
+    name = getattr(uploaded, "name", "audio.wav") or "audio.wav"
+    suffix = Path(name).suffix.lower().lstrip(".")
+    if suffix and suffix not in ALLOWED_EXTENSIONS:
+        raise InvalidInputError(
+            f"'{name}' is not a supported audio format.",
+            hint=f"Supported formats: {', '.join(ALLOWED_EXTENSIONS)}.",
+        )
+
+    limit_mb = MAX_UPLOAD_BYTES // (1024 * 1024)
+    reported_size = getattr(uploaded, "size", None)
+    if isinstance(reported_size, int) and reported_size > MAX_UPLOAD_BYTES:
+        raise InvalidInputError(
+            f"The file is {reported_size / 1024 / 1024:.1f} MB, larger than the {limit_mb} MB limit.",
+            hint="Trim the clip or choose a smaller file.",
+        )
+
     data = uploaded.getvalue() if hasattr(uploaded, "getvalue") else uploaded.read()
     if not data:
         raise InvalidInputError("The audio file is empty.", hint="Choose a file that contains audio.")
     if len(data) > MAX_UPLOAD_BYTES:
-        limit_mb = MAX_UPLOAD_BYTES // (1024 * 1024)
         raise InvalidInputError(
             f"The file is {len(data) / 1024 / 1024:.1f} MB, larger than the {limit_mb} MB limit.",
             hint="Trim the clip or choose a smaller file.",
